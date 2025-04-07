@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "391293749280",
+    "project_id": "rafsakaosapp",
+    "storage_bucket": "rafsakaosapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391293749280:android:478e47b43f53f71e295445",
+        "android_client_info": {
+          "package_name": "com.example.rafsakaos_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHOyqaRTR58826kyc8s_75w-GJRAW3y3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
