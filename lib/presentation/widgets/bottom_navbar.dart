@@ -46,12 +46,12 @@ class _BottomNavbarState extends State<BottomNavbar> {
         itemCount: 4,
         tabBuilder: (int index, bool isActive) {
           final iconData = index == 0
-              ? CupertinoIcons.home
+              ? Icons.home
               : index == 1
-                  ? CupertinoIcons.square_grid_2x2
-                  : index == 2
-                      ? CupertinoIcons.cart
-                      : CupertinoIcons.person;
+                  ? Icons.grid_view
+              : index == 2
+                      ? Icons.shopping_cart
+              : Icons.person;
 
           final label = index == 0
               ? 'Home'
