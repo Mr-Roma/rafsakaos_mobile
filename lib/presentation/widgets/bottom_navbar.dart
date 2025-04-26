@@ -17,13 +17,24 @@ class BottomNavbar extends StatefulWidget {
 
 class _BottomNavbarState extends State<BottomNavbar> {
   int pageIndex = 0;
+  late List<Widget> pages;
 
-  final List<Widget> pages = [
-    HomePage(),
-    KatalogPage(),
-    OrderPage(),
-    ProfilePage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    pages = [
+      HomePage(
+        onProfileTap: () {
+          setState(() {
+            pageIndex = 3;
+          });
+        },
+      ),
+      KatalogPage(),
+      OrderPage(),
+      ProfilePage(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,18 +59,18 @@ class _BottomNavbarState extends State<BottomNavbar> {
           final iconData = index == 0
               ? Icons.home
               : index == 1
-                  ? Icons.grid_view
+              ? Icons.grid_view
               : index == 2
-                      ? Icons.shopping_cart
+              ? Icons.shopping_cart
               : Icons.person;
 
           final label = index == 0
               ? 'Home'
               : index == 1
-                  ? 'Katalog'
-                  : index == 2
-                      ? 'Order'
-                      : 'Profile';
+              ? 'Katalog'
+              : index == 2
+              ? 'Order'
+              : 'Profile';
 
           return Column(
             mainAxisSize: MainAxisSize.min,
@@ -83,7 +94,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
           );
         },
         activeIndex: pageIndex,
-        gapLocation: GapLocation.none, // 4 item → no FAB di tengah
+        gapLocation: GapLocation.none,
         notchSmoothness: NotchSmoothness.defaultEdge,
         elevation: 0,
         onTap: (index) {

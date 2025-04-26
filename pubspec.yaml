@@ -21,3 +21,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/promo.jpg
+    - assets/images/denim.jpg
+    - assets/images/rayon.jpg
+    - assets/images/katun.jpg
+    - assets/images/nilon.jpg
+
+
+
