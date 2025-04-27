@@ -48,7 +48,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   Future<void> pickImage() async {
-    // TODO: Implementasi image picker
     setState(() {
       uploadedImagePath = 'assets/images/sample_design.jpg';
     });
@@ -100,7 +99,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.indigo,
+                  color: Color(0xFF384188),
                 ),
               ),
               const SizedBox(height: 16),
@@ -161,7 +160,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         color: color,
                         shape: BoxShape.circle,
                         border: isSelected
-                            ? Border.all(color: Colors.indigo, width: 3)
+                            ? Border.all(color: Color(0xFF384188), width: 3)
                             : Border.all(color: Colors.grey.shade300, width: 1),
                       ),
                     ),
@@ -186,7 +185,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   child: uploadedImagePath == null
                       ? const Center(
-                    child: Icon(Icons.add_photo_alternate_outlined, size: 50, color: Colors.indigo),
+                    child: Icon(Icons.add_photo_alternate_outlined, size: 50, color: Color(0xFF384188)),
                   )
                       : ClipRRect(
                     borderRadius: BorderRadius.circular(12),
@@ -217,30 +216,37 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   IconButton(
                     onPressed: increment,
                     icon: const Icon(Icons.add),
-                    color: Colors.indigo,
+                    color: Color(0xFF384188),
                     iconSize: 30,
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.indigo,
+                        backgroundColor: Color(0xFF384188),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                       onPressed: () {
+                        if (selectedSize == null || selectedColor == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Silakan pilih ukuran dan warna.'),
+                            ),
+                          );
+                        }
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => OrderPage(
                               productName: widget.title,
-                              productPrice: totalPrice,
+                              productPrice: widget.price,
                               productDescription: widget.description,
                               productImage: widget.imagePath,
                               selectedSize: selectedSize,
-                              selectedColor: selectedColor,
+                              selectedColor: selectedColor!,
                               uploadedImagePath: uploadedImagePath,
                               quantity: quantity,
                             ),
@@ -251,6 +257,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         'Lanjutkan Pemesanan',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
+                          color: Colors.white,
                           fontSize: 16,
                         ),
                       ),
