@@ -77,14 +77,14 @@ class _BottomNavbarState extends State<BottomNavbar> {
               Icon(
                 iconData,
                 size: 25,
-                color: isActive ? const Color(0xFF2C5A33) : Colors.black,
+                color: isActive ? const Color(0xFF384188) : Colors.black,
               ),
               const SizedBox(height: 4),
               Text(
                 label,
                 style: GoogleFonts.poppins(
                   fontSize: 11,
-                  color: isActive ? const Color(0xFF2C5A33) : Colors.black,
+                  color: isActive ? const Color(0xFF384188) : Colors.black,
                   fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
