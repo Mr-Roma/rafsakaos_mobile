@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
@@ -31,7 +30,6 @@ class _BottomNavbarState extends State<BottomNavbar> {
         },
       ),
       KatalogPage(),
-      OrderPage(),
       ProfilePage(),
     ];
   }

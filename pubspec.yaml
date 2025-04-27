@@ -18,6 +18,7 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
+  image_picker: ^1.0.4
 
 flutter:
   uses-material-design: true
@@ -27,6 +28,7 @@ flutter:
     - assets/images/rayon.jpg
     - assets/images/katun.jpg
     - assets/images/nilon.jpg
+    - assets/images/sample_design.jpg
 
 
 
