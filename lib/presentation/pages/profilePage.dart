@@ -46,14 +46,14 @@ class ProfilePage extends StatelessWidget {
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: Text(
-                      "Alerta!",
+                      "Alert!",
                       style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.red),
                     ),
                     content: Text(
-                      "Konfirma atu sai husi aplikasaun?",
+                      "Yakin ingin keluar dari aplikasi?",
                       style: GoogleFonts.poppins(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
