@@ -1,32 +1,53 @@
-
-// pages/login_page.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rafsakaos_app/presentation/pages/registerPage.dart';
-
+import 'package:rafsakaos_app/presentation/widgets/myButton.dart';
+import 'package:rafsakaos_app/presentation/widgets/myTextfield.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final Function()? onTap;
+
+  const LoginPage({Key? key, required this.onTap}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
-  Future<void> signIn() async {
+  void signUserIn() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
     try {
-      await _auth.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
-      // Navigate to home/dashboard page
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login gagal: $e')),
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Login Error'),
+            content: Text(e.code == 'user-not-found'
+                ? 'Incorrect Email!'
+                : 'Incorrect Password!'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
       );
     }
   }
@@ -34,63 +55,149 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 60),
-              const Text('Papipakonveksi', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-              const SizedBox(height: 30),
-              const Text('Sign-In', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 16),
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(labelText: 'Kata Sandi'),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Checkbox(value: true, onChanged: (_) {}),
-                  const Text('Ingat Saya'),
-                  const Spacer(),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('Forgot Password?'),
-                  )
-                ],
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: signIn,
-                child: const Text('Masuk'),
-              ),
-              const SizedBox(height: 20),
-              const Center(child: Text('atau')),
-              const SizedBox(height: 10),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.g_mobiledata, size: 40),
-                  SizedBox(width: 16),
-                  Icon(Icons.facebook, size: 40),
-                  SizedBox(width: 16),
-                  Icon(Icons.apple, size: 40),
-                ],
-              ),
-              const SizedBox(height: 20),
-              TextButton(
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterPage())),
-                child: const Text('apakah anda sudah punya akun? Buat Akun'),
-              )
-            ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 50),
+                // Title
+                Text(
+                  'Papipakonveksi',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.deepPurple,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 40),
+
+                // Sign In title
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Sign-In',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Email field
+                MyTextField(
+                  controller: emailController,
+                  hintText: 'Masukkan Email',
+                  obscureText: false,
+                ),
+                const SizedBox(height: 15),
+
+                // Password field
+                MyTextField(
+                  controller: passwordController,
+                  hintText: 'Masukkan Kata Sandi',
+                  obscureText: true,
+                ),
+
+                const SizedBox(height: 10),
+
+                // Remember me and Forgot password
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Checkbox(value: true, onChanged: (value) {}),
+                        Text('Ingat Saya'),
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        'Forgot Password?',
+                        style: TextStyle(color: Colors.grey[600]),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                // Login Button
+                MyButton(
+                  text: 'Masuk',
+                  onTap: signUserIn,
+                ),
+
+                const SizedBox(height: 25),
+
+                // OR divider
+                Row(
+                  children: [
+                    Expanded(
+                        child:
+                            Divider(color: Colors.grey[400], thickness: 0.5)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Text('atau'),
+                    ),
+                    Expanded(
+                        child:
+                            Divider(color: Colors.grey[400], thickness: 0.5)),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
+                // Social media login icons
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Image.asset('assets/google.png', height: 40),
+                //     const SizedBox(width: 20),
+                //     Image.asset('assets/facebook.png', height: 40),
+                //     const SizedBox(width: 20),
+                //     Image.asset('assets/apple.png', height: 40),
+                //   ],
+                // ),
+
+                const SizedBox(height: 25),
+
+                // Register
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('apakah anda sudah punya akun?'),
+                    const SizedBox(width: 5),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterPage(
+                                    onTap: () {},
+                                  )),
+                        );
+                      },
+                      child: const Text(
+                        'Buat Akun',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 30),
+              ],
+            ),
           ),
         ),
       ),

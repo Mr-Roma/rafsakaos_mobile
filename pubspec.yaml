@@ -4,15 +4,17 @@ publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: ^3.7.0
+  sdk: ">=3.5.0 <4.0.0"
 
 dependencies:
   animated_bottom_navigation_bar: ^1.4.0
+  cloud_firestore: ^5.6.6
   firebase_auth: ^5.5.2
   firebase_core: ^3.13.0
   flutter:
     sdk: flutter
   google_fonts: ^6.2.1
+  provider: ^6.1.4
 
 dev_dependencies:
   flutter_lints: ^5.0.0
@@ -29,6 +31,3 @@ flutter:
     - assets/images/katun.jpg
     - assets/images/nilon.jpg
     - assets/images/sample_design.jpg
-
-
-
