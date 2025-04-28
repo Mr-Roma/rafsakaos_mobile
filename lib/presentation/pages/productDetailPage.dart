@@ -236,6 +236,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               content: Text('Silakan pilih ukuran dan warna.'),
                             ),
                           );
+                          return;
                         }
                         Navigator.push(
                           context,
