@@ -4,7 +4,6 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 
 import 'package:rafsakaos_app/presentation/pages/homepage.dart';
 import 'package:rafsakaos_app/presentation/pages/katalogPage.dart';
-import 'package:rafsakaos_app/presentation/pages/orderPage.dart';
 import 'package:rafsakaos_app/presentation/pages/profilePage.dart';
 
 class BottomNavbar extends StatefulWidget {
@@ -25,12 +24,12 @@ class _BottomNavbarState extends State<BottomNavbar> {
       HomePage(
         onProfileTap: () {
           setState(() {
-            pageIndex = 3;
+            pageIndex = 2; // Changed from 3 to 2 since we removed Order page
           });
         },
       ),
-      KatalogPage(),
-      ProfilePage(),
+      const KatalogPage(),
+      const ProfilePage(),
     ];
   }
 
@@ -52,23 +51,19 @@ class _BottomNavbarState extends State<BottomNavbar> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar.builder(
         backgroundColor: Colors.white,
-        itemCount: 4,
+        itemCount: 3, // Changed from 4 to 3 since we removed Order page
         tabBuilder: (int index, bool isActive) {
           final iconData = index == 0
               ? Icons.home
               : index == 1
-              ? Icons.grid_view
-              : index == 2
-              ? Icons.shopping_cart
-              : Icons.person;
+                  ? Icons.grid_view
+                  : Icons.person;
 
           final label = index == 0
               ? 'Home'
               : index == 1
-              ? 'Katalog'
-              : index == 2
-              ? 'Order'
-              : 'Profile';
+                  ? 'Katalog'
+                  : 'Profile';
 
           return Column(
             mainAxisSize: MainAxisSize.min,

@@ -1,31 +1,43 @@
-// main.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:rafsakaos_app/presentation/widgets/bottom_navbar.dart';
+import 'package:rafsakaos_app/presentation/pages/authPage.dart';
 import 'firebase_options.dart';
+import 'package:provider/provider.dart';
 
-void main() async {
+final navigatorKey = GlobalKey<NavigatorState>();
+
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const MyApp());
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Papipakonveksi',
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        fontFamily: 'Poppins',
-      ),
-      home: BottomNavbar(
+    return ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        navigatorKey: navigatorKey,
+        home: AuthPage(), // Changed from LoginPage to AuthPage
       ),
     );
+  }
+}
+
+class ThemeProvider with ChangeNotifier {
+  ThemeMode _themeMode = ThemeMode.system;
+
+  ThemeMode get themeMode => _themeMode;
+
+  void setThemeMode(ThemeMode mode) {
+    _themeMode = mode;
+    notifyListeners();
   }
 }
